@@ -1,0 +1,9 @@
+properties([pipelineTriggers([cron('H 21 * * *')])])
+
+node {
+    checkout scm
+
+    def lib = load "${pwd()}/jenkins/lib.groovy"
+
+    lib.regressionSuite task: 'spec:ad'
+}
