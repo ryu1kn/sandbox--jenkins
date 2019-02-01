@@ -1,4 +1,4 @@
-properties([pipelineTriggers([cron('H 21 * * *')])])
+properties([pipelineTriggers([pollSCM('H/3 * * * *')])])
 
 node {
     checkout scm

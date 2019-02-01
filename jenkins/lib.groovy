@@ -5,6 +5,7 @@ def regressionSuite(Map params) {
         }
     } finally {
         def decoration = getMessageDecoration()
+        println decoration
         if (decoration.notify) {
             slackSend(color: decoration.color, message: "${decoration.heading}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
         }
