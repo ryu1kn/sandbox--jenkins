@@ -3,12 +3,10 @@ def regressionSuite(Map params) {
         withEnv(['TARGET_ENV=tst']) {
             stageWithTask params.task
         }
-    } finally {
-        def decoration = getMessageDecoration()
-        println decoration
-        if (decoration.notify) {
-            slackSend(color: decoration.color, message: "${decoration.heading}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-        }
+        notifySuccess()
+    } catch (e) {
+        notifyFailure()
+        throw e
     }
 }
 
@@ -18,20 +16,11 @@ def stageWithTask(String taskName) {
     }
 }
 
-private Map getMessageDecoration() {
-    println currentBuild.currentResult
-    println currentBuild.result
-    switch (currentBuild.result) {
-        case 'SUCCESS':
-            [color: 'good', heading: 'SUCCESSFUL', notify: true]
-            break
-        case 'FAILURE':
-            [color: 'danger', heading: 'FAILED', notify: true]
-            break
-        case 'UNSTABLE':
-        default:
-            [notify: false];
-    }
+private def notifySuccess() { notify 'good', 'SUCCESSFUL' }
+private def notifyFailure() { notify 'danger', 'FAILED' }
+
+private def notify(colour, heading) {
+    slackSend(color: colour, message: "${heading}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 }
 
 return this
