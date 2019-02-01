@@ -12,7 +12,7 @@ def regressionSuite(Map params) {
 
 def stageWithTask(String taskName) {
     stage('Build') {
-        sh 'exit 1'
+        println taskName
     }
 }
 
