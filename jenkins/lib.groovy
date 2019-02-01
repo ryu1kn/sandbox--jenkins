@@ -16,11 +16,11 @@ def stageWithTask(String taskName) {
     }
 }
 
-private def notifySuccess() { notify 'good', 'SUCCESSFUL' }
-private def notifyFailure() { notify 'danger', 'FAILED' }
+private def notifySuccess() { notify 'good', '👌' }
+private def notifyFailure() { notify 'danger', '👎' }
 
-private def notify(colour, heading) {
-    slackSend(color: colour, message: "${heading}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+private def notify(String colour, String heading) {
+    slackSend(color: colour, message: "${heading} ${env.JOB_NAME} #${env.BUILD_NUMBER} <${env.BUILD_URL}|View Build>")
 }
 
 return this
