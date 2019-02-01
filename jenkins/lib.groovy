@@ -19,6 +19,7 @@ def stageWithTask(String taskName) {
 }
 
 private Map getMessageDecoration() {
+    println currentBuild
     switch (currentBuild.result) {
         case 'SUCCESS':
             [color: 'good', heading: 'SUCCESSFUL', notify: true]
