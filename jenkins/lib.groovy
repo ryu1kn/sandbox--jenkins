@@ -20,7 +20,12 @@ private def notifySuccess() { notify 'good', '👌' }
 private def notifyFailure() { notify 'danger', '👎' }
 
 private def notify(String colour, String heading) {
-    slackSend(color: colour, message: "${heading} ${env.JOB_NAME} #${env.BUILD_NUMBER} took ${currentBuild.durationString} <${env.BUILD_URL}|View Build>")
+    slackSend(color: colour, message: "${heading} ${env.JOB_NAME} #${env.BUILD_NUMBER}, took ${duration()}. <${env.BUILD_URL}|View Build>")
+}
+
+private String duration() {
+    // https://github.com/jenkinsci/slack-plugin/issues/327
+    currentBuild.durationString.replace(' and counting', '')
 }
 
 return this
