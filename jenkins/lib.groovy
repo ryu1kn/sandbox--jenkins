@@ -1,4 +1,4 @@
-evaluate(new File("${pwd()}/jenkins/lib/Test.groovy"))
+load "${pwd()}/jenkins/lib/Test.groovy"
 
 def regressionSuite(Map params) {
     try {
