@@ -1,4 +1,4 @@
-load "${pwd()}/jenkins/lib/Test.groovy"
+def Test = load "${pwd()}/jenkins/lib/Test.groovy"
 
 def regressionSuite(Map params) {
     try {
@@ -15,7 +15,7 @@ def regressionSuite(Map params) {
 def stageWithTask(String taskName) {
     stage('Build') {
         println taskName
-        println(instantiate("${pwd()}/jenkins/lib/Test.groovy", 'awesome').greet)
+        println(Test.create('awesome').greet)
     }
 }
 
@@ -29,12 +29,6 @@ private def notify(String colour, String heading) {
 private String duration() {
     // https://github.com/jenkinsci/slack-plugin/issues/327
     currentBuild.durationString.replace(' and counting', '')
-}
-
-private GroovyObject instantiate(String className, ...args) {
-    File sourceFile = new File(className)
-    Class groovyClass = new GroovyClassLoader(getClass().getClassLoader()).parseClass(sourceFile)
-    groovyClass.newInstance(*args)
 }
 
 return this
