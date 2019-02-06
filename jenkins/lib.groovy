@@ -1,12 +1,18 @@
 
-def regressionSuite(Map params) {
+final Map<String, Map<String, String>> statusSettings = [
+        SUCCESS: [color: 'good', mark: ':ok_hand:'],
+        FAILURE: [color: 'danger', mark: ':-1:']
+]
+
+def regressionSuite(Map<String, String> params) {
+    Closure<String> notifyStatus = { String status -> notify(params.owner, status) }
     try {
         withEnv(['TARGET_ENV=tst']) {
             stageWithTask params.task
         }
-        notifySuccess()
+        notifyStatus('SUCCESS')
     } catch (e) {
-        notifyFailure()
+        notifyStatus('FAILURE')
         throw e
     }
 }
@@ -17,11 +23,12 @@ def stageWithTask(String taskName) {
     }
 }
 
-private def notifySuccess() { notify 'good', '👌' }
-private def notifyFailure() { notify 'danger', '👎' }
-
-private def notify(String colour, String heading) {
-    slackSend(color: colour, message: "${heading} ${env.JOB_NAME} #${env.BUILD_NUMBER}, took ${duration()}. <${env.BUILD_URL}|View Build>")
+private String notify(String owner, String status) {
+    statusSetting = statusSettings[status]
+    slackSend(
+        color: statusSetting.color,
+        message: "${statusSetting.heading} ${env.JOB_NAME} #${env.BUILD_NUMBER}, took ${duration()}. Owner is $owner. <${env.BUILD_URL}|View Build>"
+    )
 }
 
 private String duration() {
