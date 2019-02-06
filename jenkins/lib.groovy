@@ -1,14 +1,4 @@
 
-class Test {
-    private String name
-
-    Test(String name) {
-        this.name = name
-    }
-
-    String greet() { "Hello, ${name}" }
-}
-
 def regressionSuite(Map params) {
     try {
         withEnv(['TARGET_ENV=tst']) {
@@ -24,7 +14,6 @@ def regressionSuite(Map params) {
 def stageWithTask(String taskName) {
     stage('Build') {
         println taskName
-        println(new Test('awesome').greet)
     }
 }
 
