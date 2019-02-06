@@ -1,3 +1,5 @@
+evaluate(new File("./lib/Test.groovy"))
+
 def regressionSuite(Map params) {
     try {
         withEnv(['TARGET_ENV=tst']) {
@@ -13,6 +15,7 @@ def regressionSuite(Map params) {
 def stageWithTask(String taskName) {
     stage('Build') {
         println taskName
+        println(new Test('awesome').greet)
     }
 }
 
