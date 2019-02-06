@@ -1,4 +1,14 @@
 
+class Test {
+    private String name
+
+    Test(String name) {
+        this.name = name
+    }
+
+    String greet() { "Hello, ${name}" }
+}
+
 def regressionSuite(Map params) {
     try {
         withEnv(['TARGET_ENV=tst']) {
@@ -12,10 +22,9 @@ def regressionSuite(Map params) {
 }
 
 def stageWithTask(String taskName) {
-    def Test = load "${pwd()}/jenkins/lib/test.groovy"
     stage('Build') {
         println taskName
-        println(Test.create('awesome').greet)
+        println(new Test('awesome').greet)
     }
 }
 
