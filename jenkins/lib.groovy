@@ -1,4 +1,4 @@
-def test = load "${pwd()}/jenkins/lib/test.groovy"
+def Test = evaluate(new File("${pwd()}/jenkins/lib/test.groovy"))
 
 def regressionSuite(Map params) {
     try {
@@ -15,7 +15,7 @@ def regressionSuite(Map params) {
 def stageWithTask(String taskName) {
     stage('Build') {
         println taskName
-        println(test.create('awesome').greet)
+        println(Test.create('awesome').greet)
     }
 }
 
